@@ -18,6 +18,7 @@
     <module>clients</module>
       <module>notification</module>
     <module>apigw</module>
+    <module>kafka</module>
   </modules>
 
   <properties>

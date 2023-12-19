@@ -6,6 +6,11 @@ import com.org.clients.notification.NotificationClient;
 import com.org.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +21,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final NewTopic topic;
+
     public void registerCustomer(CustomerRegistrationRequest request) {
 
         Customer customer = Customer.builder()
@@ -37,6 +45,10 @@ public class CustomerService {
                 customer.getFirstName(),
                 String.format("Hi, %s, welcome to Spectre", customer.getFirstName())
                 );
-        Boolean notificationSent = notificationClient.sendNotification(notificationRequest);
+        Message<NotificationRequest> message = MessageBuilder.withPayload(notificationRequest)
+                .setHeader(KafkaHeaders.TOPIC, topic.name())
+                .build();
+        kafkaTemplate.send(message);
+        //Boolean notificationSent = notificationClient.sendNotification(notificationRequest);
     }
 }
