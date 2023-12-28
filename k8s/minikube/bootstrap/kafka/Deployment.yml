@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+  labels:
+    app: kafka
+spec:
+  serviceName: kafka
+  replicas: 1
+  template:
+    metadata:
+      name: kafka
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: postgres
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+            - secretRef:
+                name: postgres-secret
+#          resources:
+#            requests:
+#              cpu: 100m
+#              memory: 256Mi
+#            limits:
+#              cpu: 500m
+#              memory: 512Mi
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: postgres
