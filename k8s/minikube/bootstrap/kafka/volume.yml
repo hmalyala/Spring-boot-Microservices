@@ -1,24 +1,22 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-pc-volume
+  name: kafka-pc-volume
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 1Gi
   hostPath:
-    path: /mnt/data
+    path: /mnt/kafka
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pc-volume-claim
+  name: kafka-pc-volume-claim
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi

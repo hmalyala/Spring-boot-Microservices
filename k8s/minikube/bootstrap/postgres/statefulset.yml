@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
-  labels:
-    app: postgres
+  name: postgres-stateful-set
 spec:
   serviceName: postgres
   replicas: 1
@@ -21,14 +19,14 @@ spec:
         - name: postgres
           image: postgres
           imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - mountPath: "/var/lib/postgresql/data"
-              name: postgres
           envFrom:
             - configMapRef:
                 name: postgres-config
             - secretRef:
                 name: postgres-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres
           resources:
             requests:
               cpu: 100m
@@ -40,3 +38,4 @@ spec:
   selector:
     matchLabels:
       app: postgres
+

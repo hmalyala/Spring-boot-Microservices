@@ -1,0 +1,30 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: kafka-stateful-set
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: kafka
+#  template:
+#    metadata:
+#      name: kafka
+#      labels:
+#        app: kafka
+#    spec:
+#      volumes:
+#        - name: kafka-volume
+#          persistentVolumeClaim:
+#            claimName: kafka-pc-volume-claim
+#      containers:
+#        - name: kafka
+#          image: bitnami/kafka
+#          volumeMounts:
+#            - mountPath: /bitnami/kafka
+#              name: kafka-volume
+#          imagePullPolicy: IfNotPresent
+#
+#      restartPolicy: Always
+#
+##  serviceName: kafka-service
