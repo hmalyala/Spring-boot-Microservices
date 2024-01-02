@@ -27,26 +27,26 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-  eureka-server:
-    container_name: eureka-server
-    image: hmalyala/eureka-server:latest
-    ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-  apigw:
-    container_name: apigw
-    image: hmalyala/apigw:latest
-    ports:
-      - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-    depends_on:
-      - eureka-server
+#  eureka-server:
+#    container_name: eureka-server
+#    image: hmalyala/eureka-server:latest
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#  apigw:
+#    container_name: apigw
+#    image: hmalyala/apigw:latest
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#    depends_on:
+#      - eureka-server
   customer:
     container_name: customer
     image: hmalyala/customer:latest
@@ -58,7 +58,7 @@ services:
       - spring
       - postgres
     depends_on:
-      - eureka-server
+#      - eureka-server
       - kafka
   notification:
     container_name: notification
@@ -70,8 +70,8 @@ services:
     networks:
       - spring
       - postgres
-    depends_on:
-      - eureka-server
+#    depends_on:
+#      - eureka-server
   fraud:
     container_name: fraud
     image: hmalyala/fraud:latest
@@ -83,7 +83,7 @@ services:
       - spring
       - postgres
     depends_on:
-      - eureka-server
+#      - eureka-server
       - kafka
   kafka:
     image: bitnami/kafka
